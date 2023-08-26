@@ -2,6 +2,7 @@ import React from "react";
 import "./Results.scss";
 
 function Results(props) {
+    console.log("toto");
     return (
         <section id="results">
             {props.status === "pending" ? (
