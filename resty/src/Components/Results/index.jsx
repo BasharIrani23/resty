@@ -1,14 +1,19 @@
 import React from "react";
+import JSONPretty from "react-json-pretty"; // Assuming you use a third-party component to pretty print JSON
 import "./Results.scss";
 
 function Results(props) {
-    console.log("toto");
     return (
         <section id="results">
-            {props.status === "pending" ? (
-                <p>Loading...</p>
+            {props.data ? (
+                <div className="response">
+                    <h2>Response Headers:</h2>
+                    <JSONPretty data={props.data.headers} />
+                    <h2>Response Body:</h2>
+                    <JSONPretty data={props.data.body} />
+                </div>
             ) : (
-                <pre>{JSON.stringify(props.data, null, 2)}</pre>
+                <p>No response data yet.</p>
             )}
         </section>
     );

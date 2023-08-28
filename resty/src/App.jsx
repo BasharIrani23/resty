@@ -1,40 +1,51 @@
-import React, { useState } from "react";
-import "./App.scss";
+import React, { useState, useEffect } from "react";
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 import Form from "./Components/Form";
 import Results from "./Components/Results";
 import axios from "axios";
+import "./App.scss";
 
 function App() {
-    const [data, setData] = useState(null);
-    const [requestParams, setRequestParams] = useState({});
-    const [loading, setLoading] = useState(false);
+    const [requestData, setRequestData] = useState({
+        method: "GET",
+        url: "",
+        body: "",
+    });
+    const [responseData, setResponseData] = useState(null);
 
-    const callApi = (requestParams) => {
-        setLoading(true);
-        axios
-            .get(requestParams.url)
-            .then((response) => {
-                setData(response.data);
-                setLoading(false);
-            })
-            .catch((error) => {
-                console.error("Error:", error);
+    useEffect(() => {
+        if (requestData.url) {
+            fetchData();
+        }
+    }, [requestData]);
+
+    const fetchData = async () => {
+        try {
+            const response = await axios({
+                method: requestData.method,
+                url: requestData.url,
+                data: requestData.body,
             });
-        setRequestParams(requestParams);
+            setResponseData(response.data);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    };
+
+    const handleFormSubmit = (formData) => {
+        setRequestData(formData);
     };
 
     return (
-        <React.Fragment>
+        <div className="app">
             <Header />
-            <div>Request Method: {requestParams.method}</div>
-            <div>URL: {requestParams.url}</div>
-            <Form handleApiCall={callApi} />
-            <Results data={data} status={loading ? "pending" : "success"} />
-
+            <main>
+                <Form onSubmit={handleFormSubmit} />
+                <Results data={responseData} />
+            </main>
             <Footer />
-        </React.Fragment>
+        </div>
     );
 }
 

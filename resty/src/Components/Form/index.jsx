@@ -2,49 +2,55 @@ import React, { useState } from "react";
 import "./Form.scss";
 
 function Form(props) {
-    const [method, setMethod] = useState("GET"); // State for the selected method
-    const [url, setUrl] = useState(""); // State for the input URL
+    const [method, setMethod] = useState("GET");
+    const [url, setUrl] = useState("");
+    const [body, setBody] = useState("");
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const formData = {
             method: method,
             url: url,
+            body: body,
         };
-        props.handleApiCall(formData);
+        props.onSubmit(formData);
     };
 
     return (
-        <>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    <span>URL: </span>
-                    {/* Input field for URL */}
-                    <input
-                        name="url"
-                        type="text"
-                        value={url}
-                        onChange={(e) => setUrl(e.target.value)}
-                    />
-                    <button type="submit">GO!</button>
-                </label>
-                <label className="methods">
-                    {/* HTTP methods */}
-                    <span id="get" onClick={() => setMethod("GET")}>
-                        GET
-                    </span>
-                    <span id="post" onClick={() => setMethod("POST")}>
-                        POST
-                    </span>
-                    <span id="put" onClick={() => setMethod("PUT")}>
-                        PUT
-                    </span>
-                    <span id="delete" onClick={() => setMethod("DELETE")}>
-                        DELETE
-                    </span>
-                </label>
-            </form>
-        </>
+        <form className="api-form" onSubmit={handleSubmit}>
+            <div className="form-group">
+                <label htmlFor="url">API URL:</label>
+                <input
+                    type="text"
+                    id="url"
+                    value={url}
+                    onChange={(e) => setUrl(e.target.value)}
+                    required
+                />
+            </div>
+            <div className="form-group">
+                <label htmlFor="method">HTTP Method:</label>
+                <select
+                    id="method"
+                    value={method}
+                    onChange={(e) => setMethod(e.target.value)}
+                >
+                    <option value="GET">GET</option>
+                    <option value="POST">POST</option>
+                    <option value="PUT">PUT</option>
+                    <option value="DELETE">DELETE</option>
+                </select>
+            </div>
+            <div className="form-group">
+                <label htmlFor="body">Request Body:</label>
+                <textarea
+                    id="body"
+                    value={body}
+                    onChange={(e) => setBody(e.target.value)}
+                />
+            </div>
+            <button type="submit">Go</button>
+        </form>
     );
 }
 
