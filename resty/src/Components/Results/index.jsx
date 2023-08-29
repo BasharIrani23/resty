@@ -1,5 +1,5 @@
 import React from "react";
-import JSONPretty from "react-json-pretty"; // Assuming you use a third-party component to pretty print JSON
+import JSONPretty from "react-json-pretty";
 import "./Results.scss";
 
 function Results(props) {
@@ -9,8 +9,12 @@ function Results(props) {
                 <div className="response">
                     <h2>Response Headers:</h2>
                     <JSONPretty data={props.data.headers} />
-                    <h2>Response Body:</h2>
-                    <JSONPretty data={props.data.body} />
+                    {props.data.results !== null && (
+                        <div>
+                            <h2>Response Results:</h2>
+                            <JSONPretty data={props.data.results} />
+                        </div>
+                    )}
                 </div>
             ) : (
                 <p>No response data yet.</p>
