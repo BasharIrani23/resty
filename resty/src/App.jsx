@@ -14,12 +14,6 @@ function App() {
     });
     const [responseData, setResponseData] = useState(null);
 
-    useEffect(() => {
-        if (requestData.url) {
-            fetchData();
-        }
-    }, [requestData]);
-
     const fetchData = async () => {
         try {
             const response = await axios({
@@ -32,6 +26,12 @@ function App() {
             console.error("Error fetching data :", error);
         }
     };
+
+    useEffect(() => {
+        if (requestData.url) {
+            fetchData();
+        }
+    }, [requestData]);
 
     const handleFormSubmit = (formData) => {
         setRequestData(formData);
