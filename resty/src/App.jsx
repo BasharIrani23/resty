@@ -39,12 +39,6 @@ function App() {
     });
     const [selectedHistoryIndex, setSelectedHistoryIndex] = useState(-1);
 
-    useEffect(() => {
-        if (requestData.url) {
-            fetchData();
-        }
-    }, [requestData]);
-
     const fetchData = async () => {
         try {
             dispatch({ type: "REQUEST_START" });
@@ -55,10 +49,20 @@ function App() {
             });
             dispatch({ type: "REQUEST_SUCCESS", payload: response.data });
         } catch (error) {
+
             console.error("Error fetching data:", error);
             dispatch({ type: "REQUEST_ERROR" });
+=======
+            console.error("Error fetching data :", error);
+
         }
     };
+
+    useEffect(() => {
+        if (requestData.url) {
+            fetchData();
+        }
+    }, [requestData]);
 
     const handleFormSubmit = (formData) => {
         setRequestData(formData);
