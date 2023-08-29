@@ -43,11 +43,14 @@ function Form(props) {
             </div>
             <div className="form-group">
                 <label htmlFor="body">Request Body:</label>
-                <textarea
-                    id="body"
-                    value={body}
-                    onChange={(e) => setBody(e.target.value)}
-                />
+                {/* Conditional rendering based on the selected HTTP method */}
+                {method !== "GET" && (
+                    <textarea
+                        id="body"
+                        value={body}
+                        onChange={(e) => setBody(e.target.value)}
+                    />
+                )}
             </div>
             <button type="submit">Go</button>
         </form>
