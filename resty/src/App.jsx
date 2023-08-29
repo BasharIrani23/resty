@@ -52,7 +52,7 @@ function App() {
 
             console.error("Error fetching data:", error);
             dispatch({ type: "REQUEST_ERROR" });
-=======
+
             console.error("Error fetching data :", error);
 
         }
